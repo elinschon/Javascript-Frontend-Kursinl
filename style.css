@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+header {
+    background-color: rgb(236, 236, 235);
+}
+
+header h1 {
+    text-align: center;
+}
+
+footer {
+    background-color: rgb(236, 236, 235);
+}
+
+#cardsContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-basis: 90%;
+    /* margin: 0 auto; */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: yellow;
+    border: 3px solid white;
+    display: block;
+    flex-basis: 100%;
+    padding: 10px;
+}
+
+.addToCartBtn {
+    width: 100%;
+    padding: 8px;
+}
+
+.showMoreBtn {
+    width: 100%;
+    padding: 8px;
+}
+
+.hidden {
+    display: none;
+    background-color: aliceblue;
+}
