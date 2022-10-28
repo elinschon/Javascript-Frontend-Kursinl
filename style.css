@@ -25,10 +25,23 @@ footer {
     /* margin: 0 auto; */
 }
 
+#cart {
+    height: 75vh;
+    width: 80vw;
+    background-color: rgb(19, 17, 17);
+    color:yellow;
+    position: absolute;
+    display: none;
+}
+
+#cart.showCart {
+    display:unset;
+}
+
 .card {
     display: flex;
     flex-direction: column;
-    background-color: black;
+    background-color: rgb(19, 17, 17);
     color: yellow;
     border: 3px solid white;
     display: block;

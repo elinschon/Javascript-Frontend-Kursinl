@@ -9,7 +9,11 @@ let cards = [];
 //     passengers: 10000
 // };
 
-
+const cartButton = document.querySelector('.openCartBtn');
+cartButton.addEventListener('click', () => {
+    //här ändras dold kundkorg till visible.
+    const cart = document.getElementById('cart').classList.toggle('showCart');
+})
 
 const getOneCard = async () => {
     const res = await fetch('https://swapi.dev/api/starships/9/?format=json');
@@ -19,21 +23,6 @@ const getOneCard = async () => {
     Model: ${data.model}
     Passengers: ${data.passengers}`);
 };
-
-// const getAllCards = async () => {
-//     const res = await fetch('https://swapi.dev/api/starships/?format=json');
-//     const data = await res.json();
-//     cards = data;
-//     console.log(cards);
-//     console.log(typeof(cards));
-//     cards.forEach(object => {
-//     document.querySelector('#cardsContainer').innerHTML = `
-//     `
-//     });
-//     document.querySelector('#cardsContainer').innerHTML = cards
-//     .map(post => `<p>Namn: ${post.name}</p>`);
-// };
-
 
 
 const getAllCards = async () => {
@@ -61,9 +50,14 @@ const getAllCards = async () => {
 btnShowMore.addEventListener('click', (event) => {
     divs.forEach(div => {
         div.classList.toggle('hidden');
+        btnShowMore.innerText === 'VISA MER' ? btnShowMore.innerText = 'VISA MINDRE' : btnShowMore.innerText = 'VISA MER';
    });
   });
 };
+
+//Hantera kundvagnen:
+
+
 
 //Sortera starships.name i bokstavsordning
 // const sortShips = async () => {
