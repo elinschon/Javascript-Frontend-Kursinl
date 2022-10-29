@@ -2,12 +2,9 @@
 
 console.log("hej");
 
-let cards = [];
-// let card = {
-//     name: "Ship",
-//     model: "Hejsan svejsan",
-//     passengers: 10000
-// };
+let starShips = [];
+let vehicles = [];
+
 
 const cartButton = document.querySelector('.openCartBtn');
 cartButton.addEventListener('click', () => {
@@ -15,6 +12,7 @@ cartButton.addEventListener('click', () => {
     const cart = document.getElementById('cart').classList.toggle('showCart');
 })
 
+//Används ej
 const getOneCard = async () => {
     const res = await fetch('https://swapi.dev/api/starships/9/?format=json');
     const data = await res.json();
@@ -25,18 +23,21 @@ const getOneCard = async () => {
 };
 
 
-const getAllCards = async () => {
+const getStarships = async () => {
     const res = await fetch('https://swapi.dev/api/starships/?format=json');
     const data = await res.json();
-    cards = data.results;
+    starShips = data.results;
     console.log(data);
 
 
-    document.querySelector('#cardsContainer').innerHTML = cards.map((card) => `<div class="card"> 
+    document.querySelector('#starShipsContainer').innerHTML = starShips.map((card) => `<div class="starshipCard"> 
     <img src ="./images/spaceships/brian-mcgowan-3bETLGHcAUU-unsplash.jpg" alt="" width= 100%>
     <h2>Namn:</h2> <p>${card.name}</p>
     <h2>Model:</h2> <p>${card.model}</p>
-    <h2>passengers:</h2> <p>${card.passengers}</p>
+    <h2>Crew:</h2> <p>${card.crew}</p>
+    <h2>Passengers:</h2> <p>${card.passengers}</p>
+    <h2>Price:</h2> <p>${card.cost_in_credits}</p>
+    <button class="moreInfoBtn">Mer information</button>
     <button class="addToCartBtn">Lägg i varukorg</button></div>`).join("");
 
    let divs = document.querySelectorAll('.card');
@@ -53,6 +54,39 @@ btnShowMore.addEventListener('click', (event) => {
         btnShowMore.innerText === 'VISA MER' ? btnShowMore.innerText = 'VISA MINDRE' : btnShowMore.innerText = 'VISA MER';
    });
   });
+};
+
+const getVehicles = async () => {
+    const res = await fetch('https://swapi.dev/api/vehicles/?format=json');
+    const data = await res.json();
+    vehicles = data.results;
+    console.log(data);
+
+
+    document.querySelector('#vehiclesContainer').innerHTML = vehicles.map((card) => `<div class="vehiclesCard"> 
+    <img src ="./images/spaceships/brian-mcgowan-3bETLGHcAUU-unsplash.jpg" alt="" width= 100%>
+    <h2>Namn:</h2> <p>${card.name}</p>
+    <h2>Model:</h2> <p>${card.model}</p>
+    <h2>Crew:</h2> <p>${card.crew}</p>
+    <h2>Passengers:</h2> <p>${card.passengers}</p>
+    <h2>Price:</h2> <p>${card.cost_in_credits}</p>
+    <button class="moreInfoBtn">Mer information</button>
+    <button class="addToCartBtn">Lägg i varukorg</button></div>`).join("");
+
+//    let divs = document.querySelectorAll('.card');
+//    divs = Array.from(divs);
+//    divs = divs.slice(1);
+//    divs.forEach(div => {
+//         div.classList.add('hidden');
+//    });
+
+//    const btnShowMore = document.querySelector('.showMoreBtn');
+// btnShowMore.addEventListener('click', (event) => {
+//     divs.forEach(div => {
+//         div.classList.toggle('hidden');
+//         btnShowMore.innerText === 'VISA MER' ? btnShowMore.innerText = 'VISA MINDRE' : btnShowMore.innerText = 'VISA MER';
+//    });
+//   });
 };
 
 //Hantera kundvagnen:
@@ -76,6 +110,7 @@ btnShowMore.addEventListener('click', (event) => {
 
 window.addEventListener('load', () => {
     // getOneCard();
-    getAllCards();
+    getStarships();
+    getVehicles();
     // sortShips();
 });
