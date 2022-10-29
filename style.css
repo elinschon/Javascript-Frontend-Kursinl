@@ -38,7 +38,7 @@ footer {
   display: unset;
 }
 
-.starShipCard, .vehiclesCard {
+.starShipCard, .vehicleCard {
   display: flex;
   flex-direction: column;
   background-color: rgb(19, 17, 17);
@@ -49,7 +49,7 @@ footer {
   padding: 10px;
 }
 
-.card:hover {
+.starShipCard:hover, .vehicleCard:hover {
   background-color: rgb(91, 90, 90);
 }
 
@@ -58,14 +58,13 @@ footer {
   padding: 8px;
 }
 
-.showMoreBtn {
+.showMoreSpaceShipsBtn, .showMoreVehiclesBtn{
   width: 100%;
   padding: 8px;
 }
 
 .hidden {
   display: none;
-  background-color: aliceblue;
 }
 
 @media screen and (min-width: 600px) {
