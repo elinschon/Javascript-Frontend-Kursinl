@@ -6,6 +6,7 @@ console.log("hej");
 
 let starShips = [];
 let vehicles = [];
+const cartCnt = document.querySelector('.cartContent');
 
 const cartButton = document.querySelector(".openCartBtn");
 cartButton.addEventListener("click", () => {
@@ -14,20 +15,26 @@ cartButton.addEventListener("click", () => {
 });
 
 //Används ej
-const getOneCard = async () => {
-  const res = await fetch("https://swapi.dev/api/starships/9/?format=json");
-  const data = await res.json();
-  console.log(data);
-  document.getElementById("card1").innerHTML = `Namn: ${data.name}
-    Model: ${data.model}
-    Passengers: ${data.passengers}`;
-};
+// const getOneCard = async () => {
+//   const res = await fetch("https://swapi.dev/api/starships/9/?format=json");
+//   const data = await res.json();
+//   console.log(data);
+//   document.getElementById("card1").innerHTML = `Namn: ${data.name}
+//     Model: ${data.model}
+//     Passengers: ${data.passengers}`;
+// };
 
 const getStarships = async () => {
   const res = await fetch("https://swapi.dev/api/starships/?format=json");
   const data = await res.json();
   starShips = data.results;
-  makeStarShipArray(starShips);
+  // makeStarShipArray(starShips);
+
+  //lägger till id till varje starship!
+  for (let i = 0; i < starShips.length; i++) { 
+    starShips[i]["id "] = [i];
+   }
+   console.log(starShips);
 
   document.querySelector("#starShipsContainer").innerHTML = starShips
       .map(
@@ -51,6 +58,10 @@ const getStarships = async () => {
     div.classList.add("hidden");
   });
 
+  for (const iterator of starShipsArray) {
+    console.log(iterator.name);
+  }
+
   //Visa mer/mindre
   const btnShowMoreSpaceShips = document.querySelector(".showMoreSpaceShipsBtn");
   btnShowMoreSpaceShips.addEventListener("click", (event) => {
@@ -62,13 +73,24 @@ const getStarships = async () => {
     });
   });
 
-  let addToCartBtnArray = document.querySelectorAll('.addToCartBtn');
-  addToCartBtnArray.forEach(btn => {
-    btn.addEventListener('click', () => {
+  // let addToCartBtnArray = document.querySelectorAll('.addToCartBtn');
+  // addToCartBtnArray.forEach(btn => {
+  //   btn.addEventListener('click', addItemToCart(starShipsArray), {
 
-    })
-  });
+  //   })
+  // });
 
+}
+
+//HUR FÅ DETTA ATT FUNKA?
+function addItemToCart(array) {
+  for (const iterator of array) {
+    if(iterator.name === card.name) {
+      cartContent.innerHTML = `
+      card.cost
+      `
+    }
+  }
 }
 
 let starShipsArray = [];
@@ -88,15 +110,27 @@ function makeStarShipArray(data) {
     );
     id++;
   });
-  console.log(starShipsArray);
+  
   return starShipsArray;
+  
 };
+
+console.log("hejhej");
+console.log(starShipsArray);
+console.log(starShipsArray[0]);
+
 
 const getVehicles = async () => {
   const res = await fetch("https://swapi.dev/api/vehicles/?format=json");
   const data = await res.json();
   vehicles = data.results;
-  makeVehicleArray(vehicles);
+  // makeVehicleArray(vehicles);
+
+  //lägger till id till varje starship!
+  for (let i = 0; i < vehicles.length; i++) { 
+    vehicles[i]["id "] = [i];
+   }
+   console.log(vehicles);
 
   document.querySelector("#vehiclesContainer").innerHTML = vehicles
     .map(
@@ -119,6 +153,10 @@ const getVehicles = async () => {
       divs.forEach((div) => {
         div.classList.add("hidden");
       });
+
+      for (const iterator of vehiclesArray) {
+        console.log(iterator.name);
+      }
     
       //Visa mer/mindre
       const btnShowMoreVehicles = document.querySelector(".showMoreVehiclesBtn");
@@ -149,7 +187,6 @@ function makeVehicleArray(data) {
     );
     id++;
   });
-  console.log(vehiclesArray);
   return vehiclesArray;
 }
 
