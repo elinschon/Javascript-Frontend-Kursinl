@@ -10,6 +10,8 @@ cartButton.addEventListener("click", () => {
   const cart = document.getElementById("cart").classList.toggle("showCart");
 });
 
+
+
 const getStarships = async () => {
   const res = await fetch("https://swapi.dev/api/starships/?format=json");
   const data = await res.json();

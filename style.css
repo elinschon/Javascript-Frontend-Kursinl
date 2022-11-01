@@ -59,7 +59,7 @@ footer {
   padding: 8px;
 }
 
-.showMoreSpaceShipsBtn, .showMoreVehiclesBtn{
+#showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
   width: 100%;
   padding: 8px;
 }
