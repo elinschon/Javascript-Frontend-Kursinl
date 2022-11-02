@@ -8,9 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="Elin Schön">
     <link rel="stylesheet" href="./style.css">
-    <script type="module" src="./scripts/main.js"></script>
-    <script type="module" src="./scripts/vehicles.js"></script>
-    <script type="module" src="scripts/starship.js"></script>
+    <!-- <script src="./scripts/main.js" defer></script> -->
+    <script src="./scripts/test.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
     <title>Webshop</title>
 </head>
@@ -27,9 +26,13 @@
     </header>
 
     <section id="cart">
-        <div class="cartContent">
+        <div class="cartContainer">
             <h2>Kundvagn</h2>
-            <div class='cartContent'>Kundvagnen är tom</div>
+            <div class='cartContent'>
+            <p class="nameHere">Kundvagnen är tom</p>
+            <p class="costHere">Pris:</p>
+            <p >Totalt: <span class="totalCostHere"></span></p>
+        </div>
             <div class='cartButtons'>
                 <button class="closeCartBtn" type="button">Stäng</button>
                 <button class="payCartBtn" type="button">Betala</button>
@@ -44,7 +47,7 @@
             <h2>STARSHIPS</h2>
             <div id="starShipsContainer">
             </div>
-            <button class="showMoreSpaceShipsBtn" type="button">VISA MER</button>
+            <button id="showMoreSpaceShipsBtn" type="button">VISA MER</button>
         </section>
 
         <!-- Vehicles here -->
@@ -52,7 +55,7 @@
             <h2>VEHICLES</h2>
             <div id="vehiclesContainer">
             </div>
-            <button class="showMoreVehiclesBtn" type="button">VISA MER</button>
+            <button id="showMoreVehiclesBtn" type="button">VISA MER</button>
         </section>
 
 

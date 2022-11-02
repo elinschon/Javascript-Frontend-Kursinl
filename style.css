@@ -59,7 +59,7 @@ footer {
   padding: 8px;
 }
 
-.showMoreSpaceShipsBtn, .showMoreVehiclesBtn{
+#showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
   width: 100%;
   padding: 8px;
 }
@@ -69,7 +69,23 @@ footer {
 }
 
 @media screen and (min-width: 600px) {
-  .card {
-    flex-basis: 33%;
+  .starShipCard, .vehicleCard {
+    flex-direction: row;
+    flex-basis: 30%;
   }
+
+  #starShipsContainer, #vehiclesContainer {
+    flex-basis: 90%;
+    /* margin: 0 auto; */
+  }
+
+  #showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
+    width: 50%;
+    padding: 8px;
+  }
+
+  section h2 {
+    font-size: 3rem;
+  }
+  
 }
