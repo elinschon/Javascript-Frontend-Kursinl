@@ -18,16 +18,21 @@ footer {
 }
 
 #starShipsContainer, #vehiclesContainer {
-  display: flex;
-  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
-  flex-basis: 90%;
+
+  display: flex;
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
+  /* flex-basis: 90%; */
   /* margin: 0 auto; */
 }
 
 #cart {
-  height: 75vh;
+   height: 75vh;
   width: 80vw;
   background-color: rgb(19, 17, 17);
   color: yellow;
@@ -40,12 +45,12 @@ footer {
 }
 
 .starShipCard, .vehicleCard {
+  display: block;
   display: flex;
   flex-direction: column;
   background-color: rgb(19, 17, 17);
   color: yellow;
   border: 3px solid white;
-  display: block;
   flex-basis: 100%;
   padding: 10px;
 }
@@ -68,7 +73,25 @@ footer {
   display: none;
 }
 
-@media screen and (min-width: 600px) {
+@media only screen and (min-width: 640px) {
+  .starShipCard, .vehicleCard{
+      flex-basis: 50%;
+}
+}
+
+@media only screen and (min-width: 960px) {
+  .starShipCard, .vehicleCard{
+      flex-basis: 33.333%;
+}
+}
+
+@media only screen and (min-width: 1280px) {
+  .starShipCard, .vehicleCard{
+      flex-basis: 25%;
+}
+}
+
+/* @media screen and (min-width: 600px) {
   .starShipCard, .vehicleCard {
     flex-direction: row;
     flex-basis: 30%;
@@ -76,7 +99,7 @@ footer {
 
   #starShipsContainer, #vehiclesContainer {
     flex-basis: 90%;
-    /* margin: 0 auto; */
+    
   }
 
   #showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
@@ -88,4 +111,4 @@ footer {
     font-size: 3rem;
   }
   
-}
+} */

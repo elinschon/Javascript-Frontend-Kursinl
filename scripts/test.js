@@ -48,13 +48,14 @@ let getData = async (url, cssClass, container, buttonID) => {
 
     //ADD TO CART!
     addToCartBtn.addEventListener("click", () => {
-      // alert(`${card.name}`);
-      cart.push(card.name, card.cost_in_credits);
-      localStorage.setItem("name", card.name); //cardCnt om det ej funkar
-      localStorage.setItem("cost", card.cost_in_credits);
-      nameHere.innerHTML = localStorage.getItem("name");
-      costHere.innerHTML = localStorage.getItem("cost");
-      totalCostHere.innerHTML += localStorage.getItem("cost");
+      cartMarkup(card);
+      // // alert(`${card.name}`);
+      // cart.push(card.name, card.cost_in_credits);
+      // localStorage.setItem("name", card.name); //cardCnt om det ej funkar
+      // localStorage.setItem("cost", card.cost_in_credits);
+      // nameHere.innerHTML = localStorage.getItem("name");
+      // costHere.innerHTML = localStorage.getItem("cost");
+      // totalCostHere.innerHTML += localStorage.getItem("cost");
     });
 
     cardMarkup.append(addToCartBtn);
@@ -80,6 +81,20 @@ let getData = async (url, cssClass, container, buttonID) => {
     });
   });
 };
+
+//--------------- FUNKTIONER FÖR CART ----------------------
+
+function cartMarkup(card) {
+ // alert(`${card.name}`);
+ cart.push(card.name, card.cost_in_credits);
+ localStorage.setItem("name", card.name); //cardCnt om det ej funkar
+ localStorage.setItem("cost", card.cost_in_credits);
+ nameHere.innerHTML = localStorage.getItem("name");
+ costHere.innerHTML = localStorage.getItem("cost");
+ totalCostHere.innerHTML += localStorage.getItem("cost");
+}
+
+
 
 //Sortera starships.name i bokstavsordning
 // const sortShips = async () => {
