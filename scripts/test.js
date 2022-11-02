@@ -1,9 +1,18 @@
 "use strict";
 
+//CART
 let cart = [];
-const cartCnt = document.querySelector(".cartContent");
-cartCnt.innerHTML = localStorage.getItem('name');
 
+const cartCnt = document.querySelector(".cartContent");
+const nameHere = document.querySelector(".nameHere");
+const costHere = document.querySelector(".costHere");
+const totalCostHere = document.querySelector(".totalCostHere");
+
+nameHere.innerHTML = localStorage.getItem("name");
+costHere.innerHTML = localStorage.getItem("cost");
+totalCostHere.innerHTML = localStorage.getItem("cost"); //kommer behöva ändras
+
+//CARDS
 const starShipsURL = "https://swapi.dev/api/starships/?format=json";
 const vehiclesURL = "https://swapi.dev/api/vehicles/?format=json";
 let id = 0;
@@ -23,35 +32,34 @@ let getData = async (url, cssClass, container, buttonID) => {
     card.id = id;
     id++;
 
-  const cardMarkup = document.createElement('div');
-  cardMarkup.classList.add(cssClass);
-  cardMarkup.innerHTML = `
+    const cardMarkup = document.createElement("div");
+    cardMarkup.classList.add(cssClass);
+    cardMarkup.innerHTML = `
       <img src ="./images/spaceships/brian-mcgowan-3bETLGHcAUU-unsplash.jpg" alt="" width= 100%>
-      <h2>Namn:</h2> <p>${card.name}</p>
-      <h2>Model:</h2> <p>${card.model}</p>
-      <h2>Crew:</h2> <p>${card.crew}</p>
-      <h2>Passengers:</h2> <p>${card.passengers}</p>
-      <h2>Price:</h2> <p>${card.cost_in_credits}</p>`;
+      <h3>Namn:</h3> <p>${card.name}</p>
+      <h3>Model:</h3> <p>${card.model}</p>
+      <h3>Crew:</h3> <p>${card.crew}</p>
+      <h3>Passengers:</h3> <p>${card.passengers}</p>
+      <h3>Price:</h3> <p>${card.cost_in_credits}</p>`;
 
-  const addToCartBtn = document.createElement('button');
-  addToCartBtn.classList.add('addToCartBtn');
-  addToCartBtn.innerText = "Lägg till";
+    const addToCartBtn = document.createElement("button");
+    addToCartBtn.classList.add("addToCartBtn");
+    addToCartBtn.innerText = "Lägg till";
 
-
-  //ADD TO CART!
-  addToCartBtn.addEventListener('click', () => {
-    alert(`${card.name}`);
-    cart.push(card.name);
-    localStorage.setItem('name', card.name);
-    cartCnt.innerHTML += localStorage.getItem('name');
-    cart.forEach(element => {
-      cartCnt.innerHTML += localStorage.getItem('name');
+    //ADD TO CART!
+    addToCartBtn.addEventListener("click", () => {
+      // alert(`${card.name}`);
+      cart.push(card.name, card.cost_in_credits);
+      localStorage.setItem("name", card.name); //cardCnt om det ej funkar
+      localStorage.setItem("cost", card.cost_in_credits);
+      nameHere.innerHTML = localStorage.getItem("name");
+      costHere.innerHTML = localStorage.getItem("cost");
+      totalCostHere.innerHTML += localStorage.getItem("cost");
     });
 
-  });
-  cardMarkup.append(addToCartBtn);
-  document.querySelector(container).append(cardMarkup);
-};
+    cardMarkup.append(addToCartBtn);
+    document.querySelector(container).append(cardMarkup);
+  }
 
   // Dölj alla utom första
   let divs = document.getElementsByClassName(cssClass); //funkade ej med queryselector?
@@ -72,7 +80,6 @@ let getData = async (url, cssClass, container, buttonID) => {
     });
   });
 };
-
 
 //Sortera starships.name i bokstavsordning
 // const sortShips = async () => {
