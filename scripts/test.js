@@ -8,9 +8,9 @@ const nameHere = document.querySelector(".nameHere");
 const costHere = document.querySelector(".costHere");
 const totalCostHere = document.querySelector(".totalCostHere");
 
-nameHere.innerHTML = localStorage.getItem("name");
-costHere.innerHTML = localStorage.getItem("cost");
-totalCostHere.innerHTML = localStorage.getItem("cost"); //kommer behöva ändras
+// nameHere.innerHTML = localStorage.getItem("name");
+// costHere.innerHTML = localStorage.getItem("cost");
+// totalCostHere.innerHTML = localStorage.getItem("cost"); //kommer behöva ändras
 
 //CARDS
 const starShipsURL = "https://swapi.dev/api/starships/?format=json";
@@ -30,6 +30,7 @@ let getData = async (url, cssClass, container, buttonID) => {
 
   for (let card of cards) {
     card.id = id;
+    card.inCart = 0; //nytt
     id++;
 
     const cardMarkup = document.createElement("div");
@@ -40,7 +41,8 @@ let getData = async (url, cssClass, container, buttonID) => {
       <h3>Model:</h3> <p>${card.model}</p>
       <h3>Crew:</h3> <p>${card.crew}</p>
       <h3>Passengers:</h3> <p>${card.passengers}</p>
-      <h3>Price:</h3> <p>${card.cost_in_credits}</p>`;
+      <h3>Price:</h3> <p>${card.cost_in_credits}</p>
+      <h3>In cart: </h3> <p>${card.inCart}</p>`;
 
     const addToCartBtn = document.createElement("button");
     addToCartBtn.classList.add("addToCartBtn");
@@ -49,13 +51,7 @@ let getData = async (url, cssClass, container, buttonID) => {
     //ADD TO CART!
     addToCartBtn.addEventListener("click", () => {
       cartMarkup(card);
-      // // alert(`${card.name}`);
-      // cart.push(card.name, card.cost_in_credits);
-      // localStorage.setItem("name", card.name); //cardCnt om det ej funkar
-      // localStorage.setItem("cost", card.cost_in_credits);
-      // nameHere.innerHTML = localStorage.getItem("name");
-      // costHere.innerHTML = localStorage.getItem("cost");
-      // totalCostHere.innerHTML += localStorage.getItem("cost");
+      numInCart(card);
     });
 
     cardMarkup.append(addToCartBtn);
@@ -84,15 +80,65 @@ let getData = async (url, cssClass, container, buttonID) => {
 
 //--------------- FUNKTIONER FÖR CART ----------------------
 
+//visar hur många varor som ligger i varukorgen på knappen baserat 
+//på värdet av 'cartnumbers' i localstorage
+function onLoadNumInCart() {
+  let productNumbers = localStorage.getItem('cartNumbers');
+  if (productNumbers) {
+    document.querySelector('.openCartBtn span').textContent = productNumbers ;
+  }
+}
+
+function numInCart(card) {
+  let productNumbers = localStorage.getItem('cartNumbers');
+
+  productNumbers = Number(productNumbers);
+
+  if(productNumbers) {
+    localStorage.setItem('cartNumbers', productNumbers + 1);
+    document.querySelector('.openCartBtn span').textContent = productNumbers + 1;
+  } else {
+    localStorage.setItem('cartNumbers', 1);
+    document.querySelector('.openCartBtn span').textContent = 1;
+  }
+
+  setItems(card);
+}
+
+function setItems(card) {
+ let cartItems = localStorage.getItem('productsinCart');
+ cartItems = JSON.parse(cartItems);
+
+if (cartItems != null) {
+
+  if(cartItems[card.id] == undefined) {
+    cartItems = {
+      ...cartItems,     //cartTtems will be equal to all thas is there from before
+      [card.id]: card  //PLUS the new card, restoperator
+    }
+  }
+  cartItems[card.id].inCart += 1;
+} else {
+  card.inCart = 1;
+  cartItems = {
+    [card.id]: card
+  }
+}
+ 
+  localStorage.setItem('productsinCart', JSON.stringify(cartItems));
+  console.log('My cartItems are: ', cartItems);
+}
+
 function cartMarkup(card) {
- // alert(`${card.name}`);
- cart.push(card.name, card.cost_in_credits);
+//  cart.push(card); //behövs arrayen?
+ console.log(card);
  localStorage.setItem("name", card.name); //cardCnt om det ej funkar
  localStorage.setItem("cost", card.cost_in_credits);
  nameHere.innerHTML = localStorage.getItem("name");
  costHere.innerHTML = localStorage.getItem("cost");
  totalCostHere.innerHTML += localStorage.getItem("cost");
 }
+
 
 
 
@@ -122,5 +168,6 @@ getData(
   "#vehiclesContainer",
   "#showMoreVehiclesBtn"
 );
+onLoadNumInCart();
 
 // sortShips();
