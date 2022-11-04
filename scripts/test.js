@@ -1,29 +1,23 @@
 "use strict";
 
-//CART
-let cart = [];
-
 const cartCnt = document.querySelector(".cartContent");
 const nameHere = document.querySelector(".nameHere");
 const costHere = document.querySelector(".costHere");
 const totalCostHere = document.querySelector(".totalCostHere");
 
-// nameHere.innerHTML = localStorage.getItem("name");
-// costHere.innerHTML = localStorage.getItem("cost");
-// totalCostHere.innerHTML = localStorage.getItem("cost"); //kommer behöva ändras
-
 //CARDS
 const starShipsURL = "https://swapi.dev/api/starships/?format=json";
 const vehiclesURL = "https://swapi.dev/api/vehicles/?format=json";
+const planetsURL = "https://swapi.dev/api/planets/?format=json"
 let id = 0;
 
+  //Ändra dold kundkorg till visible.
 const cartButton = document.querySelector(".openCartBtn");
 cartButton.addEventListener("click", () => {
-  //här ändras dold kundkorg till visible.
   const cart = document.getElementById("cart").classList.toggle("showCart");
 });
 
-let getData = async (url, cssClass, container, buttonID) => {
+let getData = async (url, cssClass, container) => {
   const res = await fetch(url);
   const data = await res.json();
   const cards = data.results;
@@ -32,6 +26,11 @@ let getData = async (url, cssClass, container, buttonID) => {
     card.id = id;
     card.inCart = 0; //nytt
     id++;
+
+    //Om det inte finns ett pris slumpas ett pris fram
+    if(card.cost_in_credits === "unknown") {
+      card.cost_in_credits = Math.floor(Math.random() * 100000000000)
+    }
 
     const cardMarkup = document.createElement("div");
     cardMarkup.classList.add(cssClass);
@@ -59,17 +58,41 @@ let getData = async (url, cssClass, container, buttonID) => {
     cardMarkup.append(addToCartBtn);
     document.querySelector(container).append(cardMarkup);
   }
+};
 
-  // Dölj alla utom första
-  let divs = document.getElementsByClassName(cssClass); //funkade ej med queryselector?
-  divs = Array.from(divs);
-  divs = divs.slice(1);
-  divs.forEach((element) => {
-    element.classList.add("hidden");
-  });
+//FETCH planets
+let getPlanetData = async (url, cssClass, container, buttonID) => {
+  const res = await fetch(url);
+  const data = await res.json();
+  const cards = data.results;
 
-  //Visa mer/mindre
-  const btnShowMore = document.querySelector(buttonID);
+  for (let card of cards) {
+    let id = 49;
+    card.id = id;
+    id++;  
+
+  const cardMarkup = document.createElement('div');
+  cardMarkup.classList.add(cssClass);
+  cardMarkup.innerHTML= `
+      <img src ="./images/spaceships/brian-mcgowan-3bETLGHcAUU-unsplash.jpg" alt="" width= 100%>
+      <h3>Name:</h3> <p>${card.name}</p>
+      <h3>Climate:</h3> <p>${card.climate}</p>
+      <h3>Population:</h3> <p>${card.population}</p>
+      <h3>Terrain:</h3> <p>${card.terrain}</p>
+  `;
+
+  document.querySelector(container).append(cardMarkup);
+}
+
+// Dölj alla utom första
+let divs = document.getElementsByClassName(cssClass); //funkade ej med queryselector?
+divs = Array.from(divs);
+divs = divs.slice(1);
+divs.forEach((element) => {
+  element.classList.add("hidden");
+});
+
+const btnShowMore = document.querySelector(buttonID);
   btnShowMore.addEventListener("click", (event) => {
     divs.forEach((div) => {
       div.classList.toggle("hidden");
@@ -78,7 +101,7 @@ let getData = async (url, cssClass, container, buttonID) => {
         : (btnShowMore.innerText = "VISA MER");
     });
   });
-};
+}
 
 //--------------- FUNKTIONER FÖR CART ----------------------
 
@@ -202,7 +225,7 @@ function cartMarkup(card) {
   <p>Totalt: ${totalCost}</p>
   </div>
   `;
-}
+};
 
 //Sortera starships.name i bokstavsordning
 // const sortShips = async () => {
@@ -221,14 +244,18 @@ function cartMarkup(card) {
 getData(
   starShipsURL,
   "starShipCard",
-  "#starShipsContainer",
-  "#showMoreSpaceShipsBtn"
+  "#starShipsContainer"
 );
 getData(
   vehiclesURL,
   "vehicleCard",
-  "#vehiclesContainer",
-  "#showMoreVehiclesBtn"
+  "#vehiclesContainer"
+);
+getPlanetData(
+  planetsURL,
+  "planetCard",
+  "#planetsContainer",
+  "#showMorePlanetsBtn"
 );
 onLoadNumInCart();
 onLoadCartMarkup();
