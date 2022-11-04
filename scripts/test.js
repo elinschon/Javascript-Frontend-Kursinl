@@ -37,21 +37,23 @@ let getData = async (url, cssClass, container, buttonID) => {
     cardMarkup.classList.add(cssClass);
     cardMarkup.innerHTML = `
       <img src ="./images/spaceships/brian-mcgowan-3bETLGHcAUU-unsplash.jpg" alt="" width= 100%>
-      <h3>Namn:</h3> <p>${card.name}</p>
-      <h3>Model:</h3> <p>${card.model}</p>
+      <h3>Name:</h3> <p>${card.name}</p>
+      <h3>ModeL:</h3> <p>${card.model}</p>
       <h3>Crew:</h3> <p>${card.crew}</p>
       <h3>Passengers:</h3> <p>${card.passengers}</p>
-      <h3>Price:</h3> <p>${card.cost_in_credits}</p>
+      <h3>Price:</h3> <p>${card.cost_in_credits} credits</p>
       <h3>In cart: </h3> <p>${card.inCart}</p>`;
 
     const addToCartBtn = document.createElement("button");
     addToCartBtn.classList.add("addToCartBtn");
-    addToCartBtn.innerText = "Lägg till";
+    addToCartBtn.innerText = "Add to cart"; 
 
-    //ADD TO CART!
+    //ADD TO CART! Skicka till localstorage
     addToCartBtn.addEventListener("click", () => {
-      cartMarkup(card);
+      // cartMarkup(card);
       numInCart(card);
+      totalCost(card);
+      cartMarkup(card);
     });
 
     cardMarkup.append(addToCartBtn);
@@ -80,67 +82,122 @@ let getData = async (url, cssClass, container, buttonID) => {
 
 //--------------- FUNKTIONER FÖR CART ----------------------
 
-//visar hur många varor som ligger i varukorgen på knappen baserat 
+//visar hur många varor som ligger i varukorgen på knappen baserat
 //på värdet av 'cartnumbers' i localstorage
 function onLoadNumInCart() {
-  let productNumbers = localStorage.getItem('cartNumbers');
+  let productNumbers = localStorage.getItem("cartNumbers");
   if (productNumbers) {
-    document.querySelector('.openCartBtn span').textContent = productNumbers ;
+    document.querySelector(".openCartBtn span").textContent = productNumbers;
   }
 }
 
-function numInCart(card) {
-  let productNumbers = localStorage.getItem('cartNumbers');
+function onLoadCartMarkup() {
+  let totalCost = localStorage.getItem("totalCost");
+  let cartItems = localStorage.getItem("productsinCart");
+  cartItems = JSON.parse(cartItems);
+  totalCost = Number(totalCost);
 
+  let cartContainer = document.querySelector(".cartContainer");
+
+  if(cartItems) {
+    cartContainer.innerHTML = "";
+    Object.values(cartItems).map((card) => {
+      cartContainer.innerHTML += `
+      <p>${card.model}</p>
+      <p>Totalt: ${totalCost}</p>
+      
+      `
+    
+      ;
+    });
+    }
+  //    else if(totalCost > 0){
+  //   cartContainer.innerHTML += `
+  //   <h4 class="emptyCart">Varukorgen är tom</h4>
+  //   `
+  // }
+}
+
+function numInCart(card) {
+  let productNumbers = localStorage.getItem("cartNumbers");
   productNumbers = Number(productNumbers);
 
-  if(productNumbers) {
-    localStorage.setItem('cartNumbers', productNumbers + 1);
-    document.querySelector('.openCartBtn span').textContent = productNumbers + 1;
+  if (productNumbers) {
+    localStorage.setItem("cartNumbers", productNumbers + 1);
+    document.querySelector(".openCartBtn span").textContent =
+      productNumbers + 1;
   } else {
-    localStorage.setItem('cartNumbers', 1);
-    document.querySelector('.openCartBtn span').textContent = 1;
+    localStorage.setItem("cartNumbers", 1);
+    document.querySelector(".openCartBtn span").textContent = 1;
   }
 
   setItems(card);
 }
 
 function setItems(card) {
- let cartItems = localStorage.getItem('productsinCart');
- cartItems = JSON.parse(cartItems);
+  let cartItems = localStorage.getItem("productsinCart");
+  cartItems = JSON.parse(cartItems);
 
-if (cartItems != null) {
-
-  if(cartItems[card.id] == undefined) {
-    cartItems = {
-      ...cartItems,     //cartTtems will be equal to all thas is there from before
-      [card.id]: card  //PLUS the new card, restoperator
+  if (cartItems != null) {
+    if (cartItems[card.id] == undefined) {
+      cartItems = {
+        ...cartItems, //cartTtems will be equal to all thas is there from before
+        [card.id]: card, //PLUS the new card, restoperator
+      };
     }
+    cartItems[card.id].inCart += 1;
+  } else {
+    card.inCart = 1;
+    cartItems = {
+      [card.id]: card,
+    };
   }
-  cartItems[card.id].inCart += 1;
-} else {
-  card.inCart = 1;
-  cartItems = {
-    [card.id]: card
-  }
+  localStorage.setItem("productsinCart", JSON.stringify(cartItems));
+  // console.log('My cartItems are: ', cartItems);
 }
- 
-  localStorage.setItem('productsinCart', JSON.stringify(cartItems));
-  console.log('My cartItems are: ', cartItems);
+
+//ska räkna ihop hela kundkorgens kostnad
+function totalCost(card) {
+  let cartCost = localStorage.getItem("totalCost"); //hämtar datan
+
+  localStorage.setItem("cartCost", Number(card.cost_in_credits)); //sätter den till värdet av nya produkten
+  cartCost = Number(cartCost); //cartItems är lika med produkterna i varukorgen
+
+  if (cartCost != null) {
+    localStorage.setItem("totalCost", cartCost + Number(card.cost_in_credits));
+  } else {
+    localStorage.setItem("totalCost", Number(card.cost_in_credits));
+  }
 }
 
 function cartMarkup(card) {
-//  cart.push(card); //behövs arrayen?
- console.log(card);
- localStorage.setItem("name", card.name); //cardCnt om det ej funkar
- localStorage.setItem("cost", card.cost_in_credits);
- nameHere.innerHTML = localStorage.getItem("name");
- costHere.innerHTML = localStorage.getItem("cost");
- totalCostHere.innerHTML += localStorage.getItem("cost");
+  let totalCost = localStorage.getItem("totalCost");
+  totalCost = Number(totalCost);
+  let cartItems = localStorage.getItem("productsinCart");
+  cartItems = JSON.parse(cartItems);
+
+  let cartContainer = document.querySelector(".cartContainer");
+  cartContainer.innerHTMl = `<p>Totalt: ${totalCost}</p>`;
+
+  cartContainer.innerHTML = `
+    <h3>CART</h3>
+  `; //Tömmer först så varor ej displayas dubbelt
+  Object.values(cartItems).map((card) => {
+    cartContainer.innerHTML += `
+    <div class="cardInCart">
+    <p>${card.name}</p>
+    <p>Antal: ${Number(card.inCart)}</p>
+    <p>Pris: ${card.cost_in_credits * Number(card.inCart)}</p>
+  
+    </div>
+    `;
+  })
+  cartContainer.innerHTML += `
+  <div class="total">
+  <p>Totalt: ${totalCost}</p>
+  </div>
+  `;
 }
-
-
-
 
 //Sortera starships.name i bokstavsordning
 // const sortShips = async () => {
@@ -169,5 +226,6 @@ getData(
   "#showMoreVehiclesBtn"
 );
 onLoadNumInCart();
+// onLoadCartMarkup();
 
 // sortShips();
