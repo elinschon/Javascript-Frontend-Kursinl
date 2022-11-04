@@ -1,19 +1,19 @@
 * {
-  
   box-sizing: border-box;
   margin: 0;
-  font-family: "Quicksand", sans-serif;
 }
 
 body {
   background-image: url("./images/casey-horner-RmoWqDCqN2E-unsplash.jpg");
   background-size:contain;
+  font-family: "Quicksand", sans-serif;
 }
 
 header {
   background-color: rgb(19, 17, 17);
   color: yellow;
   height: 150px;
+  font-family: 'Russo One', sans-serif;
 }
 
 header h1 {
@@ -29,17 +29,15 @@ footer {
   background-color: rgb(236, 236, 235);
 }
 
-#starShipsContainer, #vehiclesContainer {
-  /* width: 90%; */
+section h2 {
+  color: yellow;
+}
+
+#starShipsContainer, #vehiclesContainer, #planetsContainer{
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
   display: flex;
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  /* justify-content: center; */
-  /* flex-basis: 90%; */
-  /* margin: 0 auto; */
 }
 
 #cart {
@@ -81,7 +79,7 @@ margin: 0.8rem 0 0.8rem 0;
   font-size: 1rem;
 }
 
-.starShipCard, .vehicleCard {
+.starShipCard, .vehicleCard, .planetCard{
   display: block;
   display: flex;
   flex-direction: column;
@@ -94,7 +92,7 @@ margin: 0.8rem 0 0.8rem 0;
   padding: 10px;
 }
 
-.starShipCard:hover, .vehicleCard:hover {
+.starShipCard:hover, .vehicleCard:hover, .planetCard:hover {
   background-color: rgb(91, 90, 90);
 }
 
@@ -103,7 +101,7 @@ margin: 0.8rem 0 0.8rem 0;
   padding: 8px;
 }
 
-#showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
+ #showMorePlanetsBtn{
   width: 100%;
   padding: 8px;
 }
@@ -113,41 +111,19 @@ margin: 0.8rem 0 0.8rem 0;
 }
 
 @media only screen and (min-width: 640px) {
-  .starShipCard, .vehicleCard{
+  .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 50%;
 }
 }
 
 @media only screen and (min-width: 960px) {
-  .starShipCard, .vehicleCard{
+  .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 33.333%;
 }
 }
 
 @media only screen and (min-width: 1280px) {
-  .starShipCard, .vehicleCard{
+  .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 20%;
 }
 }
-
-/* @media screen and (min-width: 600px) {
-  .starShipCard, .vehicleCard {
-    flex-direction: row;
-    flex-basis: 30%;
-  }
-
-  #starShipsContainer, #vehiclesContainer {
-    flex-basis: 90%;
-    
-  }
-
-  #showMoreSpaceShipsBtn, #showMoreVehiclesBtn{
-    width: 50%;
-    padding: 8px;
-  }
-
-  section h2 {
-    font-size: 3rem;
-  }
-  
-} */
