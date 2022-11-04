@@ -99,23 +99,28 @@ function onLoadCartMarkup() {
 
   let cartContainer = document.querySelector(".cartContainer");
 
+  cartContainer.innerHTMl = `<p>Totalt: ${totalCost}</p>`;
+
   if(cartItems) {
-    cartContainer.innerHTML = "";
-    Object.values(cartItems).map((card) => {
-      cartContainer.innerHTML += `
-      <p>${card.model}</p>
-      <p>Totalt: ${totalCost}</p>
-      
-      `
-    
-      ;
-    });
-    }
-  //    else if(totalCost > 0){
-  //   cartContainer.innerHTML += `
-  //   <h4 class="emptyCart">Varukorgen är tom</h4>
-  //   `
-  // }
+  cartContainer.innerHTML = `
+    <h3>CART</h3>
+  `; //Tömmer först så varor ej displayas dubbelt
+  Object.values(cartItems).map((card) => {
+    cartContainer.innerHTML += `
+    <div class="cardInCart">
+    <p>${card.name}</p>
+    <p>Antal: ${Number(card.inCart)}</p>
+    <p>Pris: ${card.cost_in_credits * Number(card.inCart)}</p>
+  
+    </div>
+    `;
+  })
+  cartContainer.innerHTML += `
+  <div class="total">
+  <p>Totalt: ${totalCost}</p>
+  </div>
+  `;
+}
 }
 
 function numInCart(card) {
@@ -226,6 +231,6 @@ getData(
   "#showMoreVehiclesBtn"
 );
 onLoadNumInCart();
-// onLoadCartMarkup();
+onLoadCartMarkup();
 
 // sortShips();
