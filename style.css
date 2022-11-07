@@ -29,15 +29,19 @@ footer {
   background-color: rgb(236, 236, 235);
 }
 
+main {
+  margin: 0.7rem;
+}
+
 section h2 {
   color: yellow;
 }
 
 #starShipsContainer, #vehiclesContainer, #planetsContainer{
+  display: flex;
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
-  display: flex;
 }
 
 #cart {
@@ -114,16 +118,25 @@ margin: 0.8rem 0 0.8rem 0;
   .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 50%;
 }
+main {
+  margin: 2rem;
+}
 }
 
 @media only screen and (min-width: 960px) {
   .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 33.333%;
 }
+main {
+  margin: 3rem;
+}
 }
 
 @media only screen and (min-width: 1280px) {
   .starShipCard, .vehicleCard, .planetCard{
       flex-basis: 20%;
+}
+main {
+  margin: 5rem;
 }
 }
