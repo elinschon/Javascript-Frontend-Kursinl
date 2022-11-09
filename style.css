@@ -96,9 +96,9 @@ margin: 0.8rem 0 0.8rem 0;
   padding: 10px;
 }
 
-.starShipCard:hover, .vehicleCard:hover, .planetCard:hover {
+/* .starShipCard:hover, .vehicleCard:hover, .planetCard:hover {
   background-color: rgb(91, 90, 90);
-}
+} */
 
 .addToCartBtn .moreInfoBtn {
   width: 100%;

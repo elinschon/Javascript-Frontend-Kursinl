@@ -92,8 +92,22 @@ let getPlanetData = async (url, cssClass, container, buttonID) => {
     element.classList.add("hidden");
   });
 
+  divs = document.getElementsByClassName(cssClass);
+  divs = Array.from(divs);
+  divs.forEach((element) => {
+    element.addEventListener("mouseenter", () => {
+      element.style.backgroundColor = "grey";
+    });
+  });
+
+  divs.forEach((element) => {
+    element.addEventListener("mouseleave", () => {
+      element.style.backgroundColor = "black";
+    });
+  });
+
   const btnShowMore = document.querySelector(buttonID);
-  btnShowMore.addEventListener("click", (event) => {
+  btnShowMore.addEventListener("mouseenter", (event) => {
     divs.forEach((div) => {
       div.classList.toggle("hidden");
       btnShowMore.innerText === "VISA MER"
@@ -138,6 +152,7 @@ function onLoadCartMarkup() {
     </div>
     `;
     });
+
     cartContainer.innerHTML += `
   <div class="total">
   <p>Totalt: ${totalCost}</p>
@@ -145,15 +160,36 @@ function onLoadCartMarkup() {
   `;
   }
 
+  //---WORKING!--Lite!------testar vad som händer om jag lägger till knappar efter markup-------------
+  let divs = document.querySelectorAll(".cardInCart");
+  console.log(divs);
+  let divNum = 0;
+
+  if (cartItems) {
+    Object.values(cartItems).map((card) => {
+      const removeOneBtn = document.createElement("button");
+      removeOneBtn.classList.add("removeOneBtn");
+      removeOneBtn.innerText = "Remove";
+      divs[divNum].append(removeOneBtn);
+
+      removeOneBtn.addEventListener("click", () => {
+        console.log(card);
+      });
+      divNum += 1;
+    });
+  }
+
+  //------slut på test av ovan--------------------------------------------------------------------------
+
   const btnDeleteCart = document.createElement("button");
   btnDeleteCart.classList.add("deleteBtn");
   btnDeleteCart.innerText = "Empty cart";
   cartContainer.append(btnDeleteCart);
 
-  btnDeleteCart.addEventListener('click', () => {
+  btnDeleteCart.addEventListener("click", () => {
     deleteCart();
-    cartMarkup(card);
-  })
+    cartMarkup(); //tog bort card, inget error längre
+  });
 }
 
 function numInCart(card) {
@@ -172,11 +208,27 @@ function numInCart(card) {
   setItems(card);
 }
 
+//--------TEST-------- TAR BORT CARTITEMS I IKONEN FÖR VARJE KNAPPTRYCK
+// function removeNumFromCart(card) {
+//   let productNumbers = localStorage.getItem("cartNumbers");
+//   productNumbers = Number(productNumbers);
+
+//   if (productNumbers) {
+//     localStorage.setItem("cartNumbers", productNumbers - 1);
+//     document.querySelector(".openCartBtn span").textContent =
+//       productNumbers - 1;
+//   } else {
+//     localStorage.setItem("cartNumbers", 0);
+//     document.querySelector(".openCartBtn span").textContent = 0;
+//   }
+
+//   unSetItems(card); //ÄNDRA FUNKTION-CALL HÄR?
+// }
+
 function emptyNumInCart() {
-  let productNumbers = localStorage.getItem('cartNumbers');
+  let productNumbers = localStorage.getItem("cartNumbers");
   productNumbers = Number(productNumbers);
-  document.querySelector(".openCartBtn span").textContent =
-  productNumbers;
+  document.querySelector(".openCartBtn span").textContent = productNumbers;
 }
 
 function setItems(card) {
@@ -198,7 +250,6 @@ function setItems(card) {
     };
   }
   localStorage.setItem("productsinCart", JSON.stringify(cartItems));
-  // console.log('My cartItems are: ', cartItems);
 }
 
 //ska räkna ihop hela kundkorgens kostnad
@@ -215,14 +266,72 @@ function totalCost(card) {
   }
 }
 
+// function cartMarkup(card) {
+//   let totalCost = localStorage.getItem("totalCost");
+//   totalCost = Number(totalCost);
+//   let cartItems = localStorage.getItem("productsinCart");
+//   cartItems = JSON.parse(cartItems);
+
+//   let values = Object.values(cartItems);
+//   for(let card of values) {
+//       console.log(card);
+//   }
+
+//   let cartContainer = document.querySelector(".cartContainer");
+//   cartContainer.innerHTMl = `<p>Total: ${totalCost}</p>`;
+
+//   cartContainer.innerHTML = `
+//     <h3>CART</h3>
+//   `; //Tömmer först så varor ej displayas dubbelt
+//   Object.values(cartItems).map((card) => {
+//     cartContainer.innerHTML += `
+//     <div class="cardInCart">
+//     <p>${card.name}</p>
+//     <p>Antal: ${Number(card.inCart)}</p>
+//     <button class ='removeFromCartBtn' type="button">Remove</button>
+//     <p>Price: ${card.cost_in_credits * Number(card.inCart)}</p>
+//     </div>
+//     `;
+//   });
+
+//   cartContainer.innerHTML += `
+//   <div class="total">
+//   <p>Total: ${totalCost}</p>
+//   </div>
+//   `;
+
+//   //-------------MAIN FOCUS NOW---------------------
+
+//   let removeFromCartBtn = document.querySelectorAll(".removeFromCartBtn");
+//   removeFromCartBtn.forEach((btn) => {
+//     btn.addEventListener("click", () => {
+//       console.log("hej");
+//       // removeNumFromCart(card);
+//       console.log(card);
+//     });
+//   });
+
+//   const btnDeleteCart = document.createElement("button");
+//   btnDeleteCart.classList.add("deleteBtn");
+//   btnDeleteCart.innerText = "Empty cart";
+//   cartContainer.append(btnDeleteCart);
+
+//   btnDeleteCart.addEventListener("click", () => {
+//     deleteCart();
+//     cartMarkup(card);
+//   });
+// }
+
 function cartMarkup(card) {
   let totalCost = localStorage.getItem("totalCost");
   totalCost = Number(totalCost);
   let cartItems = localStorage.getItem("productsinCart");
   cartItems = JSON.parse(cartItems);
 
+  let values = Object.values(cartItems);
+
   let cartContainer = document.querySelector(".cartContainer");
-  cartContainer.innerHTMl = `<p>Totalt: ${totalCost}</p>`;
+  cartContainer.innerHTMl = `<p>Total: ${totalCost}</p>`;
 
   cartContainer.innerHTML = `
     <h3>CART</h3>
@@ -232,25 +341,39 @@ function cartMarkup(card) {
     <div class="cardInCart">
     <p>${card.name}</p>
     <p>Antal: ${Number(card.inCart)}</p>
-    <p>Pris: ${card.cost_in_credits * Number(card.inCart)}</p>
+    <button class ='removeFromCartBtn' type="button">Remove</button>
+    <p>Price: ${card.cost_in_credits * Number(card.inCart)}</p>
     </div>
     `;
   });
+
   cartContainer.innerHTML += `
   <div class="total">
-  <p>Totalt: ${totalCost}</p>
+  <p>Total: ${totalCost}</p>
   </div>
   `;
+
+  //-------------MAIN FOCUS NOW---------------------
+
+  let btns = document.querySelectorAll(".removeFromCartBtn");
+  let btnNum = 0;
+
+  Object.values(cartItems).map((card) => {
+    btns[btnNum].addEventListener("click", () => {
+      console.log(card);
+    });
+    btnNum += 1;
+  });
 
   const btnDeleteCart = document.createElement("button");
   btnDeleteCart.classList.add("deleteBtn");
   btnDeleteCart.innerText = "Empty cart";
   cartContainer.append(btnDeleteCart);
 
-  btnDeleteCart.addEventListener('click', () => {
+  btnDeleteCart.addEventListener("click", () => {
     deleteCart();
     cartMarkup(card);
-  })
+  });
 }
 
 //funkar på localStorage, behöver ta bort innerHTML i cart också
@@ -269,20 +392,6 @@ function deleteCart() {
   emptyNumInCart();
 }
 
-//Sortera starships.name i bokstavsordning
-// const sortShips = async () => {
-//     const res = await fetch('https://swapi.dev/api/starships/?format=json');
-//     const data = await res.json();
-//     let ships = data.results;
-//     let shipsToSort = [];
-//     for (let i = 0; i < ships.length; i++) {
-//         shipsToSort[i] = ships[i].name;
-//     }
-
-//     shipsToSort.sort();
-//     console.log(shipsToSort);
-// }
-
 getData(starShipsURL, "starShipCard", "#starShipsContainer");
 getData(vehiclesURL, "vehicleCard", "#vehiclesContainer");
 getPlanetData(
@@ -293,5 +402,3 @@ getPlanetData(
 );
 onLoadNumInCart();
 onLoadCartMarkup();
-
-// sortShips();
