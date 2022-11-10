@@ -14,7 +14,9 @@ let id = 0;
 //Ändra dold kundkorg till visible.
 const cartButton = document.querySelector(".openCartBtn");
 cartButton.addEventListener("click", () => {
-  const cart = document.getElementById("cart").classList.toggle("showCart");
+  const cartWindow = document
+    .getElementById("cartWindow")
+    .classList.toggle("showCart");
 });
 
 let getData = async (url, cssClass, container) => {

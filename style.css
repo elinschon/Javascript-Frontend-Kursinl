@@ -44,7 +44,7 @@ section h2 {
   justify-content: center;
 }
 
-#cart {
+#cartWindow {
    height: 75vh;
   width: 100vw;
   background-color: rgb(19, 17, 17);
@@ -55,7 +55,7 @@ section h2 {
   overflow: scroll;
 }
 
-#cart.showCart {
+#cartWindow.showCart {
   display: unset;
 }
 
