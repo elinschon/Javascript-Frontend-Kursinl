@@ -58,16 +58,17 @@ let getData = async (url, cssClass, container) => {
     card.addToCartBtn = addToCartBtn;
 
     addToCartBtn.addEventListener("click", () => {
-      if (cart) {
-        card.inCart += 1;
-      } else {
-        card.inCart += 1;
-      }
-      cart.push(card);
-      numInCart(card);
+      // if (cart) {
+      //   card.inCart += 1;
+      // } else {
+      //   card.inCart = 1; //+= eller +??
+      // }
+      //cart.push(card);
+      pushCard(card);
       uppdateLocalStorage();
+      numInCart();
       cartMarkup();
-      console.log(cart);
+      // console.log(cart);
     });
     console.log(addToCartBtn.value);
     cardMarkup.append(addToCartBtn);
@@ -131,8 +132,11 @@ let getPlanetData = async (url, cssClass, container, buttonID) => {
   });
 };
 
+//----------------------------------------------------------------------------------------------------------
+
 function cartMarkup() {
   cartContainer.innerHTML = "CART";
+  console.log(cart);
 
   for (let card of cart) {
     var div = document.createElement("div");
@@ -155,6 +159,7 @@ function cartMarkup() {
     });
     cartContainer.appendChild(div);
   }
+
   const btnDeleteCart = document.createElement("button");
   btnDeleteCart.classList.add("deleteBtn");
   btnDeleteCart.innerText = "Empty cart";
@@ -162,7 +167,10 @@ function cartMarkup() {
 
   //Funkar ej än!
   btnDeleteCart.addEventListener("click", () => {
-    deleteCart(card);
+    cart.length = 0;
+    numInCart();
+  uppdateLocalStorage();
+  cartMarkup();
   });
 
   // cartContainer.innerHTML += `
@@ -172,25 +180,18 @@ function cartMarkup() {
   // `;
 }
 
-function numInCart() {
-  let productNumbers = localStorage.getItem("cartNumbers");
-  productNumbers = Number(productNumbers);
-
-  if (productNumbers) {
-    localStorage.setItem("cartNumbers", productNumbers + 1);
-    document.querySelector(".openCartBtn span").textContent =
-      productNumbers + 1;
+function pushCard(card) {
+  if(!cart.some((cartItem) => cartItem.name === card.name)) {
+    card.inCart = 1;
+    cart.push(card);
   } else {
-    localStorage.setItem("cartNumbers", 1);
-    document.querySelector(".openCartBtn span").textContent = 1;
+    cart.find((cartItem) => cartItem.name === card.name).inCart++;
   }
 }
 
-function onLoadNumInCart() {
-  let productNumbers = localStorage.getItem("cartNumbers");
-  if (productNumbers) {
-    document.querySelector(".openCartBtn span").textContent = productNumbers;
-  }
+function numInCart() {
+  let total = cart.reduce((a, b) => a + Number(b.inCart), 0);
+  document.querySelector(".openCartBtn span").textContent = total;
 }
 
 function uppdateLocalStorage() {
@@ -198,6 +199,7 @@ function uppdateLocalStorage() {
 }
 
 function deleteCard(card) {
+  card.inCart = 0;
   cart.splice(cart.indexOf(card), 1);
   numInCart();
   uppdateLocalStorage();
@@ -214,4 +216,4 @@ getPlanetData(
 );
 
 cartMarkup();
-onLoadNumInCart();
+numInCart();

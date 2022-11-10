@@ -1,9 +1,14 @@
 "use strict";
 
-const cartCnt = document.querySelector(".cartContent");
-const nameHere = document.querySelector(".nameHere");
-const costHere = document.querySelector(".costHere");
-const totalCostHere = document.querySelector(".totalCostHere");
+let cart = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : [];
+
+  if (localStorage.getItem("cart")) {
+  cart = JSON.parse(localStorage.getItem("cart"));
+} else {
+  cart = [];
+}
 
 //CARDS
 const starShipsURL = "https://swapi.dev/api/starships/?format=json";
@@ -28,6 +33,15 @@ let getData = async (url, cssClass, container) => {
     card.id = id;
     card.inCart = 0; //nytt
     id++;
+
+    let cardObject  = {
+        name: cardObject.name,
+        model: cardObject.model,
+        crew: cardObject.crew,
+        passengers: cardObject.passengers,
+        cost_in_credits: cardObject.cost_in_credits,
+        inCart: cardObject.inCart
+    }
 
     //Om det inte finns ett pris slumpas ett pris fram
     if (card.cost_in_credits === "unknown") {
@@ -130,69 +144,6 @@ function onLoadNumInCart() {
   }
 }
 
-// function onLoadCartMarkup() {
-//   let totalCost = localStorage.getItem("totalCost");
-//   let cartItems = localStorage.getItem("productsinCart");
-//   cartItems = JSON.parse(cartItems);
-//   totalCost = Number(totalCost);
-
-//   let cartContainer = document.querySelector(".cartContainer");
-
-//   cartContainer.innerHTMl = `<p>Totalt: ${totalCost}</p>`;
-
-//   if (cartItems) {
-//     cartContainer.innerHTML = `
-//     <h3>CART</h3>
-//   `; //Tömmer först så varor ej displayas dubbelt
-//     Object.values(cartItems).map((card) => {
-//       cartContainer.innerHTML += `
-//     <div class="cardInCart">
-//     <p>${card.name}</p>
-//     <p>Antal: ${Number(card.inCart)}</p>
-//     <p>Pris: ${card.cost_in_credits * Number(card.inCart)}</p>
-//     </div>
-//     `;
-//     });
-
-//     cartContainer.innerHTML += `
-//   <div class="total">
-//   <p>Totalt: ${totalCost}</p>
-//   </div>
-//   `;
-//   }
-
-//   //---WORKING!--Lite!------testar vad som händer om jag lägger till knappar efter markup-------------
-//   let divs = document.querySelectorAll(".cardInCart");
-//   console.log(divs);
-//   let divNum = 0;
-
-//   if (cartItems) {
-//     Object.values(cartItems).map((card) => {
-//       const removeOneBtn = document.createElement("button");
-//       removeOneBtn.classList.add("removeOneBtn");
-//       removeOneBtn.innerText = "Remove";
-//       divs[divNum].append(removeOneBtn);
-
-//       removeOneBtn.addEventListener("click", () => {
-//         console.log(card);
-//       });
-//       divNum += 1;
-//     });
-//   }
-
-//   //------slut på test av ovan--------------------------------------------------------------------------
-
-//   const btnDeleteCart = document.createElement("button");
-//   btnDeleteCart.classList.add("deleteBtn");
-//   btnDeleteCart.innerText = "Empty cart";
-//   cartContainer.append(btnDeleteCart);
-
-//   btnDeleteCart.addEventListener("click", () => {
-//     deleteCart();
-//     cartMarkup(); //tog bort card, inget error längre
-//   });
-// }
-
 function numInCart(card) {
   let productNumbers = localStorage.getItem("cartNumbers");
   productNumbers = Number(productNumbers);
@@ -227,7 +178,7 @@ function numInCart(card) {
 // }
 
 function emptyNumInCart() {
-  let productNumbers = localStorage.getItem("cartNumbers");
+  let productNumbers = localStorage.getItem(cart);
   productNumbers = Number(productNumbers);
   document.querySelector(".openCartBtn span").textContent = productNumbers;
 }
@@ -238,7 +189,7 @@ function setItems(card) {
 
   if (cartItems != null) {
     if (cartItems[card.id] == undefined) {
-      cartItems = {
+        cartItems = {
         ...cartItems, //cartTtems will be equal to all thas is there from before
         [card.id]: card, //PLUS the new card, restoperator
       };
@@ -250,7 +201,15 @@ function setItems(card) {
       [card.id]: card,
     };
   }
-  localStorage.setItem("productsinCart", JSON.stringify(cartItems));
+
+  let cartItem = {
+    name: (`${card.name}`),
+    cost: (`${card.cost_in_credits}`)
+  }
+
+  localStorage.setItem((`${cartItem.name}`), JSON.stringify(cartItem));
+
+//   localStorage.setItem("productsinCart", JSON.stringify(cartItems));
 }
 
 //ska räkna ihop hela kundkorgens kostnad
@@ -277,6 +236,7 @@ function cartMarkup(card) {
   cartContainer.innerHTML = `
     <h3>CART</h3>
   `; //Tömmer först så varor ej displayas dubbelt
+
 
   if(cartItems) {
   let values = Object.values(cartItems);
@@ -308,6 +268,9 @@ function cartMarkup(card) {
   Object.values(cartItems).map((card) => {
     btns[btnNum].addEventListener("click", () => {
       console.log(card);
+        const removeItem = item.target;
+        removeItem.parentElement.remove();
+localStorage.removeItem((`${cartItem.name}`));
     });
     btnNum += 1;
   });
