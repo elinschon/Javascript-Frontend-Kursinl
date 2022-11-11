@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <title>Jsonplaceholder</title>
+  </head>
+  <body>
+    <header>
+        <h1>Kundregister</h1>
+    </header>
+    <main>
+      <section id="input">
+        <p>Läs in hela kundregistret</p>
+        <button id="getBtn" type="button">GET</button>
+        <p>Lägg till ny kund</p>
+        <button id="postBtn" type="button">POST</button>
+        <form id="inputForm">
+          <label for="name">Name: </label>
+          <input type="text" id="name" name="name"/><br>
+          <label for="userId">Id: </label>
+          <input type="number" id="userId" name="userId"/><br>
+          <label for="name">Username: </label>
+          <input type="text" id="userName" name="userName"/><br>
+          <label for="name">Email: </label>
+          <input type="email" id="email" name="email"/><br>
+          <label for="name">Phone: </label>
+          <input type="tel" id="phone" name="phone"/><br>
+          <button id="submitBtn" type="button" value="submit">SUBMIT</button>
+        </form>
+      </section>
+
+      <section id="output"></section>
+    </main>
+  </body>
+</html>

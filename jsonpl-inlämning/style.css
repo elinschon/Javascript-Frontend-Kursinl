@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+header {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+main{
+    margin: 3rem;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+#input{
+    background-color: beige;
+    width:35vw;
+    border: 1px solid black;
+}
+
+#output{
+    background-color: lightgrey;
+    width:65vw;
+}
+
+.outputArticle {
+    border: 1px solid black;
+}
+
+button {
+    width: 6rem;
+    padding: 0.2rem;
+    margin-right: 1rem;
+}
